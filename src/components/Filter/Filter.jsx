@@ -1,9 +1,18 @@
 import { FieldInput, FieldLabel } from './Filter.styled';
-import PropTypes from 'prop-types';
 import { nanoid } from 'nanoid';
+import { useDispatch, useSelector } from 'react-redux';
+import { changeFilter } from '../../redux/filterSlice';
+import { getFilter } from '../../redux/selectors';
 
-const Filter = ({ filter, onFilterChange }) => {
+const Filter = ( ) => {
   const filterInputId = nanoid();
+
+  const filter = useSelector(getFilter);
+  const dispatch = useDispatch();
+
+  const handleFilterChange = (event) =>{
+    dispatch(changeFilter(event.currentTarget.value));
+  }
 
   return (
     <div>
@@ -13,15 +22,10 @@ const Filter = ({ filter, onFilterChange }) => {
         name="filter"
         value={filter}
         id={filterInputId}
-        onChange={onFilterChange}
+        onChange={handleFilterChange}
       />
     </div>
   );
 };
 
 export default Filter;
-
-Filter.propTypes = {
-  filter: PropTypes.string.isRequired,
-  onFilterChange: PropTypes.func.isRequired,
-};

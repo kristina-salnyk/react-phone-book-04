@@ -5,22 +5,11 @@ import { Box } from './Box';
 import { Title } from './App.styled';
 import Notification from './Notification';
 import noResultsImg from '../img/no-result.png';
-import useContacts from '../hooks/useContacts';
-import useFilter from '../hooks/useFilter';
+import {  getVisibleContacts } from '../redux/selectors';
+import { useSelector } from 'react-redux';
 
 export const App = () => {
-  const [contacts, addContact, deleteContact] = useContacts([]);
-  const [filter, changeFilter] = useFilter('');
-
-  const getVisibleContacts = () => {
-    const normalizedFilter = filter.toLowerCase();
-
-    return contacts.filter(item =>
-      item.name.toLowerCase().includes(normalizedFilter)
-    );
-  };
-
-  const visibleContacts = getVisibleContacts();
+  const contacts = useSelector(getVisibleContacts);
 
   return (
     <Box
@@ -34,17 +23,14 @@ export const App = () => {
     >
       <Box display="grid" gridGap="10px">
         <Title as="h1">Phonebook</Title>
-        <ContactForm onSubmit={addContact} />
+        <ContactForm />
       </Box>
 
       <Box display="grid" gridGap="10px">
         <Title>Contacts</Title>
-        <Filter filter={filter} onFilterChange={changeFilter} />
-        {visibleContacts.length > 0 ? (
-          <ContactList
-            contacts={visibleContacts}
-            onDeleteContact={deleteContact}
-          />
+        <Filter/>
+        {contacts.length > 0 ? (
+          <ContactList />
         ) : (
           <Notification message="There is no contacts" image={noResultsImg} />
         )}

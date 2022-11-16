@@ -3,8 +3,12 @@ import { BsFillPersonFill } from 'react-icons/bs';
 import { Box } from '../Box';
 import PropTypes from 'prop-types';
 import { ReactComponent as DeleteIcon } from 'icons/delete-icon.svg';
+import { useDispatch } from 'react-redux';
+import { deleteContact } from '../../redux/contactsSlice';
 
-const Contact = ({ id, name, number, onDeleteContact }) => {
+const Contact = ({ id, name, number }) => {
+  const dispatch = useDispatch();
+
   return (
     <Item>
       <Box display="flex" alignItems="center">
@@ -13,7 +17,7 @@ const Contact = ({ id, name, number, onDeleteContact }) => {
       </Box>
       <Button
         type="button"
-        onClick={() => onDeleteContact(id)}
+        onClick={() => dispatch(deleteContact(id))}
         aria-label="Delete contact"
       >
         <DeleteIcon width="20" height="20" fill="white"></DeleteIcon>
@@ -28,5 +32,4 @@ Contact.propTypes = {
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   number: PropTypes.string.isRequired,
-  onDeleteContact: PropTypes.func,
 };
