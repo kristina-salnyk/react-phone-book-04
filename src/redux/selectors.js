@@ -8,4 +8,4 @@ export const getVisibleContacts = state => {
   return state.contacts.filter(item =>
     item.name.toLowerCase().includes(normalizedFilter)
   );
-}
+};
